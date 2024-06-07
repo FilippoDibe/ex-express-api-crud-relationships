@@ -8,14 +8,19 @@ const {
     update,
     destroy
 } = require('../controllers/postController.js')
-
+const validator = require('../middlewares/validator.js');
+const { postData } = require('../validations/postValidation.js');
 const uniqueSlug = require('../middlewares/uniqueSlug.js');
 
-router.post("/", uniqueSlug, create);
-router.put("/:slug", uniqueSlug, update);
 
+console.log(postData); // Aggiungi questa riga per verificare se `postData` è definito
+
+router.post("/", uniqueSlug, validator(postData), create);
 router.get("/:slug", showBySlug);
 router.get("/", index);
+router.put("/:slug",validator(postData), update);
+
+
 router.delete("/:slug", uniqueSlug, destroy);
 
 module.exports = router;

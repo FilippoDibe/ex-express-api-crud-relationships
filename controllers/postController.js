@@ -1,13 +1,16 @@
 const {PrismaClient} = require("@prisma/client");
 const prisma = new PrismaClient();
+const errorHandler = require("../middlewares/errorHandler")
 
 const create = async (req, res) => {
-    const { title, slug, content, published } = req.body;
+    const { title, slug, content, published, categoriesId, tagId } = req.body;
     const data = {
       title,
       slug,
       content,
       published,
+      categoriesId,
+      tagId
     };
   
     try {
@@ -63,17 +66,17 @@ const index = async (req, res) => {
 };
 
 const update = async (req, res) => {
-    try{
-        const {slug} = req.params;
-        const post = await prisma.post.update({
-            where: {slug},
-            data: req.body,
-        });
-        res.json(post);
-    }catch(err){
-        res.status(500).json({ error: 'Si è verificato un errore durante aggiornamento dei postt.' });
+  try{
+      const {slug} = req.params;
+      const post = await prisma.post.update({
+          where: {slug},
+          data: req.body,
+      });
+      res.json(post);
+  }catch(err){
+      res.status(500).json({ error: 'Si è verificato un errore durante aggiornamento dei postt.' });
 
-    }
+  }
 }
 
 const destroy = async(req, res) => {

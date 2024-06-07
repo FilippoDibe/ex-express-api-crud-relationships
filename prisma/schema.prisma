@@ -21,11 +21,9 @@ model Post {
   published    Boolean
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
+  tags         Tag[]       @relation("PostToTag")
   Categories   Categories? @relation(fields: [categoriesId], references: [id])
   categoriesId Int?
-  Tag          Tag?        @relation(fields: [tagId], references: [id])
-  tagId        Int?
-  PostTag      PostTag?
 }
 
 model Categories {
@@ -41,14 +39,5 @@ model Tag {
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  PostTag   PostTag?
-  Post      Post[]
-}
-
-model PostTag {
-  id     Int  @id @default(autoincrement())
-  postId Int  @unique
-  tagId  Int  @unique
-  post   Post @relation(fields: [postId], references: [id])
-  tag    Tag  @relation(fields: [tagId], references: [id])
+  posts     Post[]   @relation("PostToTag")
 }
