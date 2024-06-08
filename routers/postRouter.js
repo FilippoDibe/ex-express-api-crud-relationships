@@ -13,7 +13,6 @@ const { postData } = require('../validations/postValidation.js');
 const uniqueSlug = require('../middlewares/uniqueSlug.js');
 
 
-console.log(postData); // Aggiungi questa riga per verificare se `postData` è definito
 
 router.post("/", uniqueSlug, validator(postData), create);
 router.get("/:slug", showBySlug);
